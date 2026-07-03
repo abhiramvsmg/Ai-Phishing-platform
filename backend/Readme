@@ -1,0 +1,144 @@
+🛡️ AI Phishing Detection Platform
+
+A Python-based backend system for detecting phishing URLs, emails, and suspicious text using cybersecurity APIs, rule-based analysis, and risk scoring.
+This project demonstrates real-world backend development with authentication, scanning modules, dashboards, and admin analytics.
+
+🚀 Features
+🔐 Authentication
+User registration & login
+JWT-based secure authentication
+Role-based access (User / Admin)
+🔍 Phishing Detection
+🌐 URL scanning for phishing websites
+📧 Email content analysis
+📝 Text-based scam detection
+Risk scoring system (LOW / MEDIUM / HIGH)
+📊 Dashboard
+Total scan statistics
+Risk distribution charts
+Recent scan history
+Monthly scan analytics
+🧑‍💼 Admin Panel
+View all users
+Monitor system scans
+Access activity logs
+View reports & analytics
+📄 Reports System
+Generate security reports per scan
+Export reports as PDF
+Export reports as CSV
+📜 Activity Logging
+Track user actions
+Store scan history
+Security event monitoring
+🏗️ Tech Stack
+Backend: Python (FastAPI / Flask)
+Database: PostgreSQL / Supabase
+Authentication: JWT (JSON Web Token)
+Security APIs:
+VirusTotal API
+Google Safe Browsing API
+Deployment: Render / Railway / Docker
+📁 Project Structure
+backend/
+│
+├── routes/          # API routes
+├── controllers/     # Business logic
+├── services/        # External API integrations
+├── models/          # Database models
+├── middleware/      # Auth & security middleware
+├── utils/           # Helper functions
+├── config/          # Config files
+⚙️ API Endpoints
+🔐 Authentication
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/token
+GET  /api/v1/users/me
+🔍 Scans
+POST /api/v1/scans/url
+POST /api/v1/scans/email
+POST /api/v1/scans/text
+
+GET  /api/v1/scans
+GET  /api/v1/scans/{scan_id}
+GET  /api/v1/scans/search/{keyword}
+📊 Dashboard
+GET /api/v1/dashboard/stats
+GET /api/v1/dashboard/recent-scans
+GET /api/v1/dashboard/risk-distribution
+GET /api/v1/dashboard/monthly-scans
+🧑‍💼 Admin
+GET /api/v1/admin/dashboard
+GET /api/v1/admin/users
+GET /api/v1/admin/scans
+GET /api/v1/admin/reports
+GET /api/v1/admin/activities
+📄 Reports
+POST /api/v1/reports/generate/{scan_id}
+GET  /api/v1/reports
+GET  /api/v1/reports/{report_id}
+
+POST /api/v1/reports/export/pdf/{report_id}
+POST /api/v1/reports/export/csv/{report_id}
+📜 Activity
+GET /api/v1/activity
+🧠 How It Works
+User submits URL/email/text
+Backend validates input
+Data sent to:
+Rule-based detection engine
+VirusTotal API
+Google Safe Browsing API
+System generates:
+Risk score (0–100)
+Risk level (LOW / MEDIUM / HIGH)
+Final classification (SAFE / PHISHING)
+Result stored in database
+Dashboard & reports updated
+📦 Installation
+# Clone repository
+git clone https://github.com/your-username/phishing-detection-platform.git
+
+# Move into project
+cd phishing-detection-platform
+
+# Create virtual environment
+python -m venv venv
+
+# Activate environment
+# Windows:
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+▶️ Run the Project
+uvicorn main:app --reload
+
+Then open:
+
+http://127.0.0.1:8000/docs
+🔐 Environment Variables
+
+Create .env file:
+
+DATABASE_URL=your_database_url
+SECRET_KEY=your_secret_key
+JWT_ALGORITHM=HS256
+
+VIRUSTOTAL_API_KEY=your_api_key
+GOOGLE_SAFE_BROWSING_API_KEY=your_api_key
+📊 Project Highlights
+Real-time phishing detection
+Secure JWT authentication
+API-based cybersecurity integration
+Scalable backend architecture
+Production-ready structure
+🎯 Future Improvements
+Machine Learning-based phishing detection
+Browser extension integration
+Email inbox scanning automation
+Real-time threat alert system
+Redis caching for faster scans
+
+

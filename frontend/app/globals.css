@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — dark, desaturated, professional direction.
+ * Near-black base, muted steel-blue accent, no saturated
+ * purple/pink/cyan. Color reads as restraint, not theme.
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  --color-bg-base: #0A0B0D;
+  --color-bg-elevated: #111316;
+  --color-bg-card: rgba(255, 255, 255, 0.04);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.07);
+
+  --color-accent: #5B7A99;
+  --color-accent-soft: rgba(91, 122, 153, 0.14);
+  --color-accent-strong: #7C9BB8;
+  --color-accent-cyan: #6FA8C4;
+  --color-accent-pink: #8A8F99;
+
+  --color-risk-low: #5FA88A;
+  --color-risk-medium: #C9A24B;
+  --color-risk-high: #C16A5C;
+  --color-risk-critical: #B3493D;
+
+  --color-text-primary: #E8E9EB;
+  --color-text-secondary: #9A9DA3;
+  --color-text-muted: #65686E;
+
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+}
+
+:root {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  color-scheme: dark;
+  font-family: var(--font-sans);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  @apply h-full overflow-x-hidden;
+}
+
+.font-data {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum";
+  letter-spacing: -0.01em;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-default); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
+
+/* ----------------------------------------------------------------
+   Background — fixed twinkling starfield (galaxy base) plus a
+   layer of slow-drifting dust particles, via <BackgroundOrbs />.
+   Deliberately monochrome: color here reads as "theme", motion
+   alone reads as "ambient texture".
+   ---------------------------------------------------------------- */
+.cosmos-field {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #FFFFFF;
+  opacity: 0;
+  animation: star-twinkle ease-in-out infinite;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: var(--max-opacity, 0.7); }
+}
+
+.snow-particle {
+  position: absolute;
+  top: -10px;
+  border-radius: 50%;
+  background: #C7C9CE;
+  animation: snow-fall linear infinite;
+  will-change: transform;
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translate(0, -5vh) translateX(0);
+  }
+  100% {
+    transform: translate(var(--drift, 0px), 105vh) translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snow-particle { animation: none; opacity: 0 !important; }
+  .star-particle { animation: none; opacity: 0.2 !important; }
+}
+
+/* ----------------------------------------------------------------
+   Glass panels — frosted cards with a bright top-edge highlight,
+   layered shadow for elevation, and a hover lift + glow border.
+   ---------------------------------------------------------------- */
+.glass {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-default);
+  border-radius: 1rem;
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
+    0 20px 40px -12px rgba(0, 0, 0, 0.5),
+    0 4px 12px -4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-sm {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.625rem;
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+.glass-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-strong);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.18) inset,
+    0 30px 60px -15px rgba(91, 122, 153, 0.25),
+    0 8px 20px -6px rgba(0, 0, 0, 0.4);
+}
+
+.glass-tilt {
+  transform: perspective(800px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)) translateZ(0);
+  transition: transform 0.15s ease-out, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-signal {
+  border-left: 2px solid var(--color-accent-cyan);
+}
+
+.glass-signal-danger {
+  border-left: 2px solid var(--color-risk-high);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent), var(--color-accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-button {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-cyan));
+  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 24px -6px rgba(91, 122, 153, 0.4);
+}
+
+.gradient-button:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -6px rgba(91, 122, 153, 0.5);
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.risk-low { background: rgba(95, 168, 138, 0.14); color: var(--color-risk-low); }
+.risk-medium { background: rgba(201, 162, 75, 0.14); color: var(--color-risk-medium); }
+.risk-high { background: rgba(193, 106, 92, 0.14); color: var(--color-risk-high); }
+.risk-critical { background: rgba(179, 73, 61, 0.16); color: var(--color-risk-critical); }
+
+.transition-smooth { transition: all 0.2s ease-out; }
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+.scan-line {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.scan-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(91, 122, 153, 0.2) 40%, rgba(111, 168, 196, 0.2) 60%, transparent);
+  animation: scan-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
