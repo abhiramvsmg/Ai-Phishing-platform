@@ -88,10 +88,4 @@ Open `http://localhost:3000`.
 - Threat intel feed of all flagged scans
 - PDF/CSV report generation and export
 - Account settings: update name, change password
-
-## Known limitations
-
-- **Team/multi-user workspaces** are not implemented yet — each
-  account only sees its own scan history. This is a planned feature
-  that needs new database tables (teams, members, invites) and
-  changes to most existing queries to scope by team.
+- Team/multi-user workspaces
